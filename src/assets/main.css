@@ -26,3 +26,8 @@
     align-items: center;
     justify-content: space-between;
 }
+.flex-end {
+    display: flex;
+    align-items: center;
+    justify-content: end;
+}

@@ -29,6 +29,7 @@
                         this.todo = ''
                     } else {
                         this.addTodo(this.todo)
+                        this.todo = ''
                     }
                 }
             },

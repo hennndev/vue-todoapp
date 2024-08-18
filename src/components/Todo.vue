@@ -120,7 +120,7 @@
     .todo .edit-icon {
         display: none;
         font-size: 1.4 rem;
-        color: #6482AD;
+        color: var(--secondary);
         cursor: pointer;
     }
     .todo:hover .edit-icon {

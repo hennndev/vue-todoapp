@@ -55,6 +55,8 @@
             },
             clearTodos() {
                 this.todos = []
+                this.isEdit = false
+                this.todoEdit = null
                 localStorage.removeItem('todos')
             },
 
@@ -63,6 +65,24 @@
             },
             handleTodoEdit(todo) {
                 this.todoEdit = todo
+            },
+
+            handleCheckedAll(value) {
+                const updatedTodos = this.todos.map(todo => {
+                    if(value === true) {
+                        return {
+                            ...todo,
+                            isDone: true
+                        }
+                    } else {
+                        return {
+                            ...todo,
+                            isDone: false
+                        }
+                    }
+                })
+                this.todos = updatedTodos
+                localStorage.setItem('todos', JSON.stringify(updatedTodos))
             }
         }
     }
@@ -83,7 +103,9 @@
                 :editTodo="editTodo" 
                 :handleIsEdit="handleIsEdit"
                 :deleteTodo="deleteTodo"
-                :handleTodoEdit="handleTodoEdit"/>
+                :handleTodoEdit="handleTodoEdit"
+                :handleCheckedAll="handleCheckedAll"
+                :clearTodos="clearTodos"/>
         </section>
     </main>
 </template>

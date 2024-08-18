@@ -1,10 +1,26 @@
 <script>
     import Todo from './Todo.vue';
     export default {
-        props: ['todos', 'editTodo', 'deleteTodo', 'handleIsEdit', 'handleTodoEdit'],
+        data() {
+            return {
+                isChecked: false
+            }
+        },
+        props: ['todos', 'editTodo', 'deleteTodo', 'handleIsEdit', 'handleTodoEdit', 'handleCheckedAll', 'clearTodos'],
         components: {
             Todo
         }, 
+        methods: {
+            handleChecked(e) {
+                this.handleCheckedAll(e.target.checked)
+            },
+            handleClearTodos() {
+                if(this.isChecked) {
+                    this.clearTodos()
+                    this.isChecked = false
+                }
+            }
+        }
     }
 </script>
 
@@ -27,6 +43,14 @@
             <p v-show="this.todos.length < 1" class="todos-empty">
                 You have no todos yet
             </p>
+        </section>
+
+        <section class="flex-end todos-bottom" v-show="todos.length > 0">
+            <label class="custom-checkbox">
+                <input type="checkbox" v-model="this.isChecked" @change="handleChecked">
+                <span class="checkmark"></span>
+            </label>
+            <button class="btn-clear"  @click="handleClearTodos" :class="!this.isChecked ? 'btn-disabled' : ''" :disabled="!this.isChecked">Clear All</button>
         </section>
     </section>
 </template>
@@ -58,4 +82,74 @@
     .todos-empty {
         color: gray;
     }       
+
+
+
+    .custom-checkbox input[type="checkbox"] {
+        display: none;
+    }
+
+    /* Create a custom checkbox */
+    .custom-checkbox {
+        display: inline-block;
+        cursor: pointer;
+        user-select: none;
+        font-size: 18px;
+    }
+
+/* The "box" of the custom checkbox */
+    .custom-checkbox .checkmark {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        background-color: #f1f1f1;
+        border: 2px solid #ccc;
+        border-radius: 4px;
+        vertical-align: middle;
+        margin-right: 10px;
+        position: relative;
+    }
+
+    /* The checkmark (tick) */
+    .custom-checkbox input[type="checkbox"]:checked + .checkmark::after {
+        content: "";
+        position: absolute;
+        left: 6.5px;
+        top: 2px;
+        width: 5px;
+        height: 10px;
+        border: solid white;
+        border-width: 0 3px 3px 0;
+        transform: rotate(45deg);
+    }
+
+    /* When the checkbox is checked, change the background */
+    .custom-checkbox input[type="checkbox"]:checked + .checkmark {
+        background-color: var(--secondary);
+        border-color: var(--secondary);
+    }
+
+
+    .todos-bottom {
+        margin-top: 40px;
+        border-top: 1px solid #ccc;
+        padding-top: 10px;
+        column-gap: 5px;
+    }
+
+
+    .btn-clear {
+        border: none;
+        outline: none;
+        border-radius: 8px;
+        padding: 10px 12px;
+        font-size: medium;
+        background: var(--secondary);
+        color: white;
+        cursor: pointer;
+    }
+    .btn-disabled {
+        background: gray;
+        cursor: not-allowed;
+    }
 </style>
