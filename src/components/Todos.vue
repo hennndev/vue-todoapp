@@ -1,3 +1,13 @@
+<script>
+    import Todo from './Todo.vue';
+    export default {
+        props: ['todos', 'editTodo', 'deleteTodo', 'handleIsEdit', 'handleTodoEdit'],
+        components: {
+            Todo
+        }, 
+    }
+</script>
+
 <template>
     <section class="todos">
         <article class="flex-between todos-header">
@@ -6,7 +16,12 @@
         </article>
         <section class="todo-container">
             <template v-for="todo in this.todos" :key="todo.id">
-                <Todo :todo="todo" :editTodo="this.editTodo" :deleteTodo="this.deleteTodo"/>
+                <Todo 
+                    :todo="todo" 
+                    :editTodo="this.editTodo" 
+                    :deleteTodo="this.deleteTodo"
+                    :handleIsEdit="this.handleIsEdit"
+                    :handleTodoEdit="this.handleTodoEdit"/>
             </template>
 
             <p v-show="this.todos.length < 1" class="todos-empty">
@@ -15,16 +30,6 @@
         </section>
     </section>
 </template>
-
-<script>
-    import Todo from './Todo.vue';
-    export default {
-        props: ['todos', 'editTodo', 'deleteTodo'],
-        components: {
-            Todo
-        }, 
-    }
-</script>
 
 <style>
     .todos {

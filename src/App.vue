@@ -1,12 +1,3 @@
-<template>
-    <main class="main flex-center">
-        <section class="todos-container">
-            <AddForm :addTodo="addNewTodo" :isEdit="isEdit" :todoEdit="todoEdit" :editTodo="editTodo"/>
-            <Todos :todos="todos" :editTodo="editTodo" :deleteTodo="deleteTodo"/>
-        </section>
-    </main>
-</template>
-
 <script>
     import AddForm from './components/AddForm.vue';
     import Todos from './components/Todos.vue';
@@ -65,10 +56,37 @@
             clearTodos() {
                 this.todos = []
                 localStorage.removeItem('todos')
+            },
+
+            handleIsEdit(value) {
+                this.isEdit = value
+            },
+            handleTodoEdit(todo) {
+                this.todoEdit = todo
             }
         }
     }
 </script>
+
+<template>
+    <main class="main flex-center">
+        <section class="todos-container">
+            <AddForm 
+                :addTodo="addNewTodo" 
+                :isEdit="isEdit" 
+                :todoEdit="todoEdit" 
+                :editTodo="editTodo"
+                :handleIsEdit="handleIsEdit"
+                :handleTodoEdit="handleTodoEdit"/>
+            <Todos 
+                :todos="todos" 
+                :editTodo="editTodo" 
+                :handleIsEdit="handleIsEdit"
+                :deleteTodo="deleteTodo"
+                :handleTodoEdit="handleTodoEdit"/>
+        </section>
+    </main>
+</template>
 
 <style>
     .main {

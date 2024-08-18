@@ -1,29 +1,12 @@
-<template>
-    <article class="todo flex-between">
-        <div class="flexx todo-value">
-            <label class="custom-checkbox">
-                <input type="checkbox" :checked="this.todo.isDone" @change="handleEdit">
-                <span class="checkmark"></span>
-            </label>
-            <p :class="this.todo.isDone ? 'todo-done' : ''">{{ this.todo.text }}</p>
-        </div>
-        <div class="flexx todo-icons">
-            <i class="pi pi-pencil edit-icon" :class="this.todo.isDone ? 'edit-icon-hidden' : ''"></i>
-            <i class="pi pi-trash delete-icon" @click="handleDelete"></i>
-        </div>
-    </article>
-</template>
-
 <script>
     export default {
-        data() {
-            return {
-                
-            }
-        },
-        props: ['todo', 'editTodo', 'deleteTodo'],
+        props: ['todo', 'editTodo', 'deleteTodo', 'handleIsEdit', 'handleTodoEdit'],
         methods: {
             handleEdit(e) {
+                this.handleIsEdit(true)
+                this.handleTodoEdit(this.todo)
+            },
+            handleChecked(e) {
                 const updatedTodo = {
                     ...this.todo,
                     isDone: e.target.checked
@@ -36,6 +19,22 @@
         }
     }
 </script>
+
+<template>
+    <article class="todo flex-between">
+        <div class="flexx todo-value">
+            <label class="custom-checkbox">
+                <input type="checkbox" :checked="this.todo.isDone" @change="handleChecked">
+                <span class="checkmark"></span>
+            </label>
+            <p :class="this.todo.isDone ? 'todo-done' : ''">{{ this.todo.text }}</p>
+        </div>
+        <div class="flexx todo-icons">
+            <i class="pi pi-pencil edit-icon" @click="handleEdit" :class="this.todo.isDone ? 'edit-icon-hidden' : ''"></i>
+            <i class="pi pi-trash delete-icon" @click="handleDelete"></i>
+        </div>
+    </article>
+</template>
 
 <style>
     .todo {

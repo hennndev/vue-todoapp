@@ -1,12 +1,3 @@
-<template>
-    <form class="form" @submit="submitTodo">
-        <input type="text" v-model="todo" placeholder="Create new todo...">
-        <i v-show="!this.isEdit" class="pi pi-plus add-icon" @click="submitTodo"></i>
-        <i v-show="this.isEdit" class="pi pi-pencil add-icon" @click="submitTodo"></i>
-        <i class="pi pi-times close-icon"></i>
-    </form>
-</template>
-
 <script>
     export default {
         data() {
@@ -14,21 +5,52 @@
                 todo: ''
             }
         },
-        props: ['addTodo', 'isEdit', 'todoEdit', 'editTodo'],
+        props: ['addTodo', 'isEdit', 'todoEdit', 'editTodo', 'handleIsEdit', 'handleTodoEdit'],
+        watch: {
+            isEdit() {
+                if(this.isEdit) {
+                    this.todo = this.todoEdit.text
+                    console.log(this.todo)
+                }
+            }
+        },
         methods: {
             submitTodo() {
                 if(this.todo === '') {
                     return alert('Please fill your todo input')
                 } else {
-                    this.addTodo(this.todo)
+                    if(this.isEdit) {
+                        this.editTodo(this.todoEdit.id, {
+                            ...this.todoEdit,
+                            text: this.todo
+                        })
+                        this.handleIsEdit(false)
+                        this.handleTodoEdit(null)
+                        this.todo = ''
+                    } else {
+                        this.addTodo(this.todo)
+                    }
                 }
             },
+            handleCloseEdit() {
+                this.handleIsEdit(false)
+                this.handleTodoEdit(null)
+                this.todo = ''
+            }
         }
     }
 </script>
 
-<style>
+<template>
+    <form class="form" @submit.prevent="submitTodo">
+        <input type="text" v-model="todo" :placeholder="this.isEdit ? 'Edit todo...' : 'Create new todo...'">
+        <i v-show="!this.isEdit" class="pi pi-plus add-icon" @click="submitTodo"></i>
+        <i v-show="this.isEdit" class="pi pi-pencil add-icon" @click="submitTodo"></i>
+        <i class="pi pi-times close-icon" v-show="this.isEdit" @click="this.handleCloseEdit"></i>
+    </form>
+</template>
 
+<style>
     .form {
         display: flex;
         align-items: center;
