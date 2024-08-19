@@ -22,6 +22,7 @@
             }
         },
         methods: {
+            // todos
             addNewTodo(value) {
                 const newTodo = {
                     id: new Date().getTime(),
@@ -53,20 +54,6 @@
                     localStorage.setItem('todos', JSON.stringify(updatedTodos))
                 }
             },
-            clearTodos() {
-                this.todos = []
-                this.isEdit = false
-                this.todoEdit = null
-                localStorage.removeItem('todos')
-            },
-
-            handleIsEdit(value) {
-                this.isEdit = value
-            },
-            handleTodoEdit(todo) {
-                this.todoEdit = todo
-            },
-
             handleCheckedAll(value) {
                 const updatedTodos = this.todos.map(todo => {
                     if(value === true) {
@@ -82,8 +69,25 @@
                     }
                 })
                 this.todos = updatedTodos
-                localStorage.setItem('todos', JSON.stringify(updatedTodos))
-            }
+            },
+            clearTodos() {
+                const confirm = window.confirm('Are you sure want to clear todos?')
+                if(confirm) {
+                    this.todos = []
+                    this.isEdit = false
+                    this.todoEdit = null
+                    localStorage.removeItem('todos')
+                }
+            },
+            // isEdit
+            handleIsEdit(value) {
+                this.isEdit = value
+            },
+            // todoEdit
+            handleTodoEdit(todo) {
+                this.todoEdit = todo
+            },
+
         }
     }
 </script>
@@ -93,19 +97,19 @@
         <section class="todos-container">
             <AddForm 
                 :addTodo="addNewTodo" 
-                :isEdit="isEdit" 
-                :todoEdit="todoEdit" 
                 :editTodo="editTodo"
+                :isEdit="isEdit" 
                 :handleIsEdit="handleIsEdit"
+                :todoEdit="todoEdit" 
                 :handleTodoEdit="handleTodoEdit"/>
             <Todos 
                 :todos="todos" 
                 :editTodo="editTodo" 
-                :handleIsEdit="handleIsEdit"
                 :deleteTodo="deleteTodo"
-                :handleTodoEdit="handleTodoEdit"
+                :clearTodos="clearTodos"
                 :handleCheckedAll="handleCheckedAll"
-                :clearTodos="clearTodos"/>
+                :handleIsEdit="handleIsEdit"
+                :handleTodoEdit="handleTodoEdit"/>
         </section>
     </main>
 </template>
@@ -114,9 +118,11 @@
     .main {
         min-height: 100vh;
         background: var(--secondary);
+        padding: 0 20px;
     }
     .todos-container {
         width: 450px;
         min-height: 400px;
+        margin: 20px 0;
     }
 </style>

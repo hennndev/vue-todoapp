@@ -5,12 +5,11 @@
                 todo: ''
             }
         },
-        props: ['addTodo', 'isEdit', 'todoEdit', 'editTodo', 'handleIsEdit', 'handleTodoEdit'],
+        props: ['addTodo', 'editTodo', 'isEdit', 'handleIsEdit', 'todoEdit', 'handleTodoEdit'],
         watch: {
             isEdit() {
                 if(this.isEdit) {
                     this.todo = this.todoEdit.text
-                    console.log(this.todo)
                 }
             }
         },
@@ -45,8 +44,7 @@
 <template>
     <form class="form" @submit.prevent="submitTodo">
         <input type="text" v-model="todo" :placeholder="this.isEdit ? 'Edit todo...' : 'Create new todo...'">
-        <i v-show="!this.isEdit" class="pi pi-plus add-icon" @click="submitTodo"></i>
-        <i v-show="this.isEdit" class="pi pi-pencil add-icon" @click="submitTodo"></i>
+        <i :class="!this.isEdit ? 'pi pi-plus' : 'pi pi-pencil'" class="form-icon" @click="submitTodo"></i>
         <i class="pi pi-times close-icon" v-show="this.isEdit" @click="this.handleCloseEdit"></i>
     </form>
 </template>
@@ -55,7 +53,6 @@
     .form {
         display: flex;
         align-items: center;
-        width: 100%;
         background: var(--primary);
         border-radius: 10px;
         padding: 0 20px;
@@ -71,7 +68,7 @@
         background-color: transparent;
         color: gray;
     }
-    .form .add-icon {
+    .form .form-icon {
         font-size: 1.1rem;
         color: var(--secondary);
         cursor: pointer;
@@ -82,5 +79,4 @@
         cursor: pointer;
         margin-left: 20px;
     }
-
 </style>

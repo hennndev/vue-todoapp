@@ -6,7 +6,7 @@
                 isChecked: false
             }
         },
-        props: ['todos', 'editTodo', 'deleteTodo', 'handleIsEdit', 'handleTodoEdit', 'handleCheckedAll', 'clearTodos'],
+        props: ['todos', 'editTodo', 'deleteTodo', 'handleCheckedAll', 'clearTodos', 'handleIsEdit', 'handleTodoEdit'],
         components: {
             Todo
         }, 
@@ -58,7 +58,6 @@
 <style>
     .todos {
         padding: 20px;
-        width: 100%;
         border-radius: 10px;
         background-color: var(--primary);
     }
